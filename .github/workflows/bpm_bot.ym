@@ -1,0 +1,27 @@
+name: BPM Power Bot
+
+on:
+  schedule:
+    - cron: '*/10 * * * *' # ogni 10 minuti
+  workflow_dispatch:
+
+jobs:
+  run-bpm-bot:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Setup Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+
+    - name: Install dependencies
+      run: pip install -r requirements.txt
+
+    - name: Run bot
+      env:
+        DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
+        CHANNEL_ID: ${{ secrets.CHANNEL_ID }}
+      run: python bot_bpm.py
